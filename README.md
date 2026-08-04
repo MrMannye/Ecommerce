@@ -79,7 +79,3 @@ La aplicación consume datos de `https://dummyjson.com` para productos y búsque
 - Autenticación de usuarios y proceso de checkout real
 - Pruebas unitarias y de integración con Vitest o Playwright
 - Mejora de la UX en caso de error de carga y retries automáticos
-
-## Licencia
-
-Proyecto de ejemplo para aprendizaje y demostración.
