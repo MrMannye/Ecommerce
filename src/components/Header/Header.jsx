@@ -5,7 +5,15 @@ import { AmazonLogo } from "../../assets/AmazonLogo";
 import { CarritoLogo } from "../../assets/CarritoLogo";
 import { SearchLogo } from "../../assets/SearchLogo";
 
+import { useDispatch } from "react-redux";
+import { setSearchTerm, selectSearchTerm } from "../../reducers/uiSlice";
+import { useSelector } from "react-redux";
+
 function Header() {
+
+    const dispatch = useDispatch();
+    const searchTerm = useSelector(selectSearchTerm);
+
     return (
         <header className="header">
             <div className="container header__bar">
@@ -24,7 +32,8 @@ function Header() {
                         id="site-search"
                         type="search"
                         placeholder="Buscar por nombre, categoría o vendedor…"
-                        value={"searchTerm"}
+                        value={searchTerm}
+                        onChange={(e) => dispatch(setSearchTerm(e.target.value))}
                         autoComplete="off"
                     />
                 </label>
