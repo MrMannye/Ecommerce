@@ -4,7 +4,6 @@ import Header from './components/Header/Header'
 import CartDrawer from './components/CartDrawer/CartDrawer'
 import Home from "./pages/Home/Home";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
-import './App.css'
 
 function App() {
   return (
