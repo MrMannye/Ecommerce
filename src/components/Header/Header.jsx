@@ -6,7 +6,7 @@ import { CarritoLogo } from "../../assets/CarritoLogo";
 import { SearchLogo } from "../../assets/SearchLogo";
 
 import { useDispatch } from "react-redux";
-import { setSearchTerm, selectSearchTerm } from "../../reducers/uiSlice";
+import { setSearchTerm, selectSearchTerm, toggleCart } from "../../reducers/uiSlice";
 import { useSelector } from "react-redux";
 
 function Header() {
@@ -41,6 +41,7 @@ function Header() {
                 <button
                     type="button"
                     className="header__cart"
+                    onClick={() => dispatch(toggleCart())}
                 >
                     <CarritoLogo />
                 </button>

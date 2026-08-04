@@ -48,4 +48,7 @@ export const selectCartTotalItems = (state) =>
 export const selectCartTotalPrice = (state) =>
     state.cart.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
 
+export const selectQuantityInCart = (id) => (state) =>
+    state.cart.items.find((item) => item.id === id)?.quantity ?? 0;
+
 export default cartSlice.reducer;
