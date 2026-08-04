@@ -1,5 +1,9 @@
 import { useState } from "react"
 import { useEffect } from "react"
+import ProductCard from "../../components/ProductCard/ProductCard"
+import { normalizeProduct } from "../../reducers/normalizeData"
+import "./Home.css"
+
 
 function Home() {
 
@@ -10,8 +14,8 @@ function Home() {
         fetch(`https://dummyjson.com/products?limit=${10}&skip=${0}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                setProducts(data.products)
+                let normailizedProducts = data.products.map(product => normalizeProduct(product))
+                setProducts(normailizedProducts)
                 setIsLoading(false)
             }).catch(() => {
                 setIsLoading(true)
@@ -26,12 +30,13 @@ function Home() {
                         <p>Cargando productos…</p>
                     </div>
                 )}
-                <div className={`catalog__grid "}`}>
-                    {products.map((product) => (
-                        // <ProductCard key={product.id} product={product} />
-                        <div key={product.id}>{product.title}</div>
-                    ))}
-                </div>
+                {!isLoading && products.length > 0 && (
+                    <div className={`catalog__grid ${isLoading ? "is-refetching" : ""}`}>
+                        {products.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
+                    </div>
+                )}
             </section>
         </div >
     )
