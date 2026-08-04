@@ -122,7 +122,9 @@ export default function ProductDetail() {
                         Visita la tienda de {product.seller}
                     </a>
 
-                    <StarRating rating={product.rating} reviewCount={product.reviewCount} />
+                    <div>
+                        <StarRating rating={product.rating} reviewCount={product.reviewCount} />
+                    </div>
 
                     <hr className="pd-hr" />
 
