@@ -21,7 +21,6 @@ export const productsApi = createApi({
             }),
         }),
 
-        // Detalle de un producto puntual.
         getProductById: builder.query({
             query: (id) => `/products/${id}`,
             transformResponse: (response) => normalizeProduct(response),

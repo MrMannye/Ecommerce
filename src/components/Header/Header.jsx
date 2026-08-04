@@ -7,12 +7,14 @@ import { SearchLogo } from "../../assets/SearchLogo";
 
 import { useDispatch } from "react-redux";
 import { setSearchTerm, selectSearchTerm, toggleCart } from "../../reducers/uiSlice";
+import { selectCartTotalItems } from "../../reducers/cartSlice";
 import { useSelector } from "react-redux";
 
 function Header() {
 
     const dispatch = useDispatch();
     const searchTerm = useSelector(selectSearchTerm);
+    const totalItems = useSelector(selectCartTotalItems);
 
     return (
         <header className="header">
@@ -44,6 +46,7 @@ function Header() {
                     onClick={() => dispatch(toggleCart())}
                 >
                     <CarritoLogo />
+                    {totalItems > 0 && <span className="header__cart-badge">{totalItems}</span>}
                 </button>
             </div>
         </header>

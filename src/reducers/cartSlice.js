@@ -28,17 +28,22 @@ const cartSlice = createSlice({
                 return { payload: { product, quantity } };
             },
         },
+        setQuantity(state, action) {
+            const { id, quantity } = action.payload;
+            const item = state.items.find((i) => i.id === id);
+            if (!item) return;
+            item.quantity = clamp(quantity, 1, item.stock);
+        },
         removeItem(state, action) {
             state.items = state.items.filter((item) => item.id !== action.payload);
         },
-
         clearCart(state) {
             state.items = [];
         },
     },
 });
 
-export const { addItem, removeItem, clearCart } = cartSlice.actions;
+export const { addItem, removeItem, clearCart, setQuantity } = cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.items;
 

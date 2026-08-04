@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsCartOpen, closeCart } from "../../reducers/uiSlice";
-import { selectCartItems, clearCart, selectCartTotalPrice } from "../../reducers/cartSlice";
+import { selectCartItems, clearCart, selectCartTotalPrice, setQuantity, removeItem } from "../../reducers/cartSlice";
+import QuantityStepper from "../QuantityStepper/QuantityStepper";
 import "./CartDrawer.css"
 
 function CartDrawer() {
@@ -57,6 +58,23 @@ function CartDrawer() {
                                                     Llegaste al máximo disponible ({item.stock})
                                                 </span>
                                             )}
+                                            <div className="cart-drawer__item-controls">
+                                                <QuantityStepper
+                                                    quantity={item.quantity}
+                                                    min={1}
+                                                    max={item.stock}
+                                                    onChange={(quantity) =>
+                                                        dispatch(setQuantity({ id: item.id, quantity }))
+                                                    }
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className="cart-drawer__remove"
+                                                    onClick={() => dispatch(removeItem(item.id))}
+                                                >
+                                                    Quitar
+                                                </button>
+                                            </div>
                                         </div>
                                     </li>
                                 );
