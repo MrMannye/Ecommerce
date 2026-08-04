@@ -1,0 +1,132 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--color-paper);
+    padding: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 18px 24px;
+}
+
+.header__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.header__logo-text {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--color-ink);
+}
+
+.header__logo-text em {
+    font-style: italic;
+    color: var(--color-rust);
+    margin: 0 1px;
+}
+
+.header__search {
+    flex: 1;
+    max-width: 480px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-card);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    padding: 9px 14px;
+    color: var(--color-ink-soft);
+    transition: border-color 0.15s ease;
+}
+
+.header__search:focus-within {
+    border-color: var(--color-olive);
+}
+
+.header__search input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--color-ink);
+}
+
+.header__search input:focus {
+    outline: none;
+}
+
+.header__search input::placeholder {
+    color: var(--color-ink-soft);
+    opacity: 0.7;
+}
+
+.header__search-icon {
+    color: var(--color-ink-soft);
+    flex-shrink: 0;
+}
+
+.header__cart {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--color-line);
+    background: var(--color-card);
+    color: var(--color-ink);
+    padding: 9px 16px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+}
+
+.header__cart:hover {
+    border-color: var(--color-olive);
+}
+
+.header__cart-badge {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    background: var(--color-rust);
+    color: var(--color-paper);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+
+@media (max-width: 720px) {
+    .header__bar {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 16px;
+    }
+
+    .header__search {
+        order: 3;
+        max-width: none;
+        width: 100%;
+    }
+
+    .header__cart-label {
+        display: none;
+    }
+}
