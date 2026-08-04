@@ -31,9 +31,6 @@ html,
 body {
   margin: 0;
   padding: 0;
-  /* Red de seguridad: si algún elemento se pasa de ancho, no genera
-     scroll horizontal en toda la página. La causa real hay que
-     resolverla igual (ver Header.css), esto es solo un freno extra. */
   overflow-x: hidden;
 }
 
@@ -79,7 +76,6 @@ img {
   width: 100%;
   max-width: 1180px;
   margin: 0 auto;
-  /* se había perdido: sin esto el container no centra en pantallas anchas */
   padding: 0 20px;
 }
 

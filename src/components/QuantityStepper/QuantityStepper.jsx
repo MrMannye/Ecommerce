@@ -1,7 +1,5 @@
 import "./QuantityStepper.css";
 
-// Selector de cantidad genérico. Nunca permite bajar de `min` ni
-// superar `max` (stock disponible).
 export default function QuantityStepper({ quantity, min = 1, max, onChange }) {
   const atMin = quantity <= min;
   const atMax = quantity >= max;

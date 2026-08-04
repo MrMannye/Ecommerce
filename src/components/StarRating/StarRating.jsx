@@ -1,7 +1,5 @@
 import "./StarRating.css";
 
-// Muestra un puntaje tipo Amazon: número, estrellas llenas/vacías y
-// cantidad de reseñas entre paréntesis.
 export default function StarRating({ rating = 0, reviewCount, size = "md" }) {
   const rounded = Math.round(rating);
 
