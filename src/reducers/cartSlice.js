@@ -15,16 +15,29 @@ const cartSlice = createSlice({
         addItem: {
             reducer: (state, action) => {
                 const { product, quantity = 1 } = action.payload;
+                const normalizedQuantity = clamp(quantity, 1, product.stock);
+                const existingItem = state.items.find((item) => item.id === product.id);
+
+                if (existingItem) {
+                    existingItem.quantity = clamp(
+                        existingItem.quantity + normalizedQuantity,
+                        1,
+                        product.stock
+                    );
+                    existingItem.stock = product.stock;
+                    return;
+                }
+
                 state.items.push({
                     id: product.id,
                     name: product.name,
                     price: product.price,
                     image: product.image,
                     stock: product.stock,
-                    quantity: clamp(quantity, 1, product.stock),
+                    quantity: normalizedQuantity,
                 });
             },
-            prepare: (product, quantity) => {
+            prepare: (product, quantity = 1) => {
                 return { payload: { product, quantity } };
             },
         },

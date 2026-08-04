@@ -1,49 +1,75 @@
-import { useState } from "react"
-import { useEffect } from "react"
-import ProductCard from "../../components/ProductCard/ProductCard"
-import { normalizeProduct } from "../../reducers/normalizeData"
-import "./Home.css"
-
-import { useSelector } from "react-redux"
-import { selectSearchTerm } from "../../reducers/uiSlice"
-
+import ProductCard from "../../components/ProductCard/ProductCard";
+import { useGetProductsQuery, useSearchProductsQuery } from "../../reducers/productsApi";
+import { useSelector } from "react-redux";
+import { selectSearchTerm } from "../../reducers/uiSlice";
+import { usePageMetadata } from "../../hooks/usePageMetadata";
+import "./Home.css";
 
 function Home() {
-
-    const [products, setProducts] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
     const searchTerm = useSelector(selectSearchTerm);
+    const normalizedTerm = searchTerm.trim();
 
-    useEffect(() => {
-        fetch(`https://dummyjson.com/products/search?q=${encodeURIComponent(searchTerm)}&limit=100`)
-            .then(response => response.json())
-            .then(data => {
-                let normailizedProducts = data.products.map(product => normalizeProduct(product))
-                setProducts(normailizedProducts)
-                setIsLoading(false)
-            }).catch(() => {
-                setIsLoading(true)
-            })
-    }, [searchTerm])
+    const {
+        data: searchData,
+        error: searchError,
+        isLoading: isSearchLoading,
+        isFetching: isSearchFetching,
+    } = useSearchProductsQuery(normalizedTerm, {
+        skip: normalizedTerm === "",
+    });
+
+    const {
+        data: allData,
+        error: allError,
+        isLoading: isAllLoading,
+        isFetching: isAllFetching,
+    } = useGetProductsQuery({ limit: 100 }, { skip: normalizedTerm !== "" });
+
+    const data = normalizedTerm ? searchData : allData;
+    const error = normalizedTerm ? searchError : allError;
+    const isLoading = normalizedTerm ? isSearchLoading : isAllLoading;
+    const isFetching = normalizedTerm ? isSearchFetching : isAllFetching;
+
+    usePageMetadata(
+        normalizedTerm ? `Resultados para “${normalizedTerm}” · Amazon Shop` : "Amazon Shop · Catálogo de productos",
+        normalizedTerm
+            ? `Busca productos relacionados con ${normalizedTerm} y descubre las mejores ofertas de la tienda.`
+            : "Explora la colección de productos y encuentra lo que necesitas en Amazon Shop."
+    );
+
+    const products = data?.items ?? [];
 
     return (
-        <div>
+        <main>
             <section className="container catalog">
                 {isLoading && (
-                    <div className="catalog__status">
+                    <div className="catalog__status" role="status" aria-live="polite">
                         <p>Cargando productos…</p>
                     </div>
                 )}
-                {!isLoading && products.length > 0 && (
-                    <div className={`catalog__grid ${isLoading ? "is-refetching" : ""}`}>
+
+                {error && (
+                    <div className="catalog__status" role="alert">
+                        <p>No se pudo cargar el catálogo. Verifica tu conexión e intenta de nuevo.</p>
+                    </div>
+                )}
+
+                {!isLoading && !error && products.length === 0 && (
+                    <div className="catalog__status" role="status" aria-live="polite">
+                        <p>No se encontraron productos para "{searchTerm}".</p>
+                    </div>
+                )}
+
+                {!isLoading && !error && products.length > 0 && (
+                    <div className={`catalog__grid ${isFetching ? "is-refetching" : ""}`}>
                         {products.map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
                     </div>
                 )}
             </section>
-        </div >
-    )
+        </main>
+    );
 }
 
-export default Home
+export default Home;

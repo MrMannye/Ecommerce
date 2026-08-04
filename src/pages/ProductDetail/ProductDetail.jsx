@@ -6,6 +6,7 @@ import { addItem, selectQuantityInCart } from "../../reducers/cartSlice";
 import { openCart } from "../../reducers/uiSlice";
 import { getDeliveryEstimate } from "../../utils/deliveryEstimate";
 import StarRating from "../../components/StarRating/StarRating";
+import { usePageMetadata } from "../../hooks/usePageMetadata";
 import "./ProductDetail.css";
 
 const FALLBACK_VARIANTS = ["Estándar", "Plus", "Pro"];
@@ -41,6 +42,13 @@ export default function ProductDetail() {
             .map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1));
         return capitalized.length ? capitalized : FALLBACK_VARIANTS;
     }, [product]);
+
+    usePageMetadata(
+        product ? `${product.name} · Amazon Shop` : "Producto · Amazon Shop",
+        product
+            ? `Descubre ${product.name}, un producto de ${product.category}. Compra fácil y revisa disponibilidad en el carrito.`
+            : "Verifica la disponibilidad del producto en Amazon Shop."
+    );
 
     if (isLoading) {
         return (
@@ -98,18 +106,21 @@ export default function ProductDetail() {
                     <div className="pd-gallery__thumbs">
                         {product.images.map((img, i) => (
                             <button
-                                key={img + i}
+                                key={`${product.id}-${i}`}
                                 type="button"
                                 className={`pd-gallery__thumb ${i === activeImage ? "is-active" : ""}`}
                                 onClick={() => setActiveImage(i)}
                                 aria-label={`Ver imagen ${i + 1} de ${product.name}`}
                             >
-                                <img src={img} alt="" />
+                                <img src={img} alt={`Miniatura ${i + 1} de ${product.name}`} loading="lazy" />
                             </button>
                         ))}
                     </div>
                     <div className="pd-gallery__main">
-                        <img src={product.images[activeImage] ?? product.image} alt={product.name} />
+                        <img
+                            src={product.images[activeImage] ?? product.image}
+                            alt={product.name || "Imagen del producto"}
+                        />
                     </div>
                 </div>
 
@@ -118,9 +129,9 @@ export default function ProductDetail() {
                     <span className="pd-main__category">{product.category}</span>
                     <h1 className="pd-main__title">{product.name}</h1>
 
-                    <a className="pd-main__seller-link" href="#vendedor">
-                        Visita la tienda de {product.seller}
-                    </a>
+                    <p className="pd-main__seller-link">
+                        Visita la tienda de <strong>{product.seller}</strong>
+                    </p>
 
                     <div>
                         <StarRating rating={product.rating} reviewCount={product.reviewCount} />
@@ -199,8 +210,8 @@ export default function ProductDetail() {
                         <p>{product.description}</p>
                         {product.details.length > 0 && (
                             <ul>
-                                {product.details.map((line) => (
-                                    <li key={line}>{line}</li>
+                                {product.details.map((line, index) => (
+                                    <li key={`${line}-${index}`}>{line}</li>
                                 ))}
                             </ul>
                         )}
@@ -224,7 +235,7 @@ export default function ProductDetail() {
                     )}
 
                     <p className="pd-buybox__ship-to">
-                        <span aria-hidden="true">📍</span> Enviando a <a href="#direccion">tu dirección guardada</a>
+                        <span aria-hidden="true">📍</span> Enviando a tu dirección guardada
                     </p>
 
                     <p className={`pd-buybox__stock pd-buybox__stock--${stockStatus.tone}`}>

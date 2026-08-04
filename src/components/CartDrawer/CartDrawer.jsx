@@ -14,17 +14,26 @@ function CartDrawer() {
         <>
             <div
                 className={`cart-drawer__backdrop ${isOpen ? "is-open" : ""}`}
+                role="button"
+                tabIndex={isOpen ? 0 : -1}
                 onClick={() => dispatch(closeCart())}
-                aria-hidden="true"
+                onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        dispatch(closeCart());
+                    }
+                }}
+                aria-label="Cerrar carrito"
             />
             <aside
+                id="cart-drawer"
                 className={`cart-drawer ${isOpen ? "is-open" : ""}`}
                 role="dialog"
-                aria-label="Carrito de compras"
+                aria-modal={isOpen}
+                aria-labelledby="cart-heading"
                 aria-hidden={!isOpen}
             >
                 <div className="cart-drawer__header">
-                    <h2>Tu carrito</h2>
+                    <h2 id="cart-heading">Tu carrito</h2>
                     <button
                         type="button"
                         className="cart-drawer__close"

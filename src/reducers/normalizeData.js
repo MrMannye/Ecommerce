@@ -17,19 +17,26 @@ export function normalizeProduct(raw) {
         details.push(`Cantidad mínima de compra: ${raw.minimumOrderQuantity}`);
     }
 
+    const fallbackImage = raw.thumbnail || (Array.isArray(raw.images) && raw.images[0]) || "";
+
     return {
         id: String(raw.id),
-        name: raw.title,
-        category: raw.category,
-        price: raw.price,
+        name: raw.title || "Producto sin nombre",
+        category: raw.category || "Uncategorized",
+        price: raw.price ?? 0,
         stock: raw.stock ?? 0,
-        // No todas las categorías de DummyJSON traen "brand" (por ejemplo,
-        // "groceries"). Si falta, mostramos la categoría como referencia.
-        seller: raw.brand || `Proveedor de ${raw.category}`,
-        image: raw.thumbnail,
-        images: raw.images ?? (raw.thumbnail ? [raw.thumbnail] : []),
-        description: raw.description,
-        rating: raw.rating,
+        seller: raw.brand || `Proveedor de ${raw.category || "productos"}`,
+        image: fallbackImage,
+        images: Array.isArray(raw.images)
+            ? raw.images
+            : raw.thumbnail
+                ? [raw.thumbnail]
+                : fallbackImage
+                    ? [fallbackImage]
+                    : [],
+        description: raw.description || "Descripción no disponible.",
+        rating: Number.isFinite(raw.rating) ? raw.rating : 0,
+        reviewCount: raw.reviewCount ?? 0,
         details,
     };
 }

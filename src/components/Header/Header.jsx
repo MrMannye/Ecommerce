@@ -5,21 +5,21 @@ import { AmazonLogo } from "../../assets/AmazonLogo";
 import { CarritoLogo } from "../../assets/CarritoLogo";
 import { SearchLogo } from "../../assets/SearchLogo";
 
-import { useDispatch } from "react-redux";
-import { setSearchTerm, selectSearchTerm, toggleCart } from "../../reducers/uiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchTerm, selectSearchTerm, toggleCart, selectIsCartOpen } from "../../reducers/uiSlice";
 import { selectCartTotalItems } from "../../reducers/cartSlice";
-import { useSelector } from "react-redux";
 
 function Header() {
 
     const dispatch = useDispatch();
     const searchTerm = useSelector(selectSearchTerm);
     const totalItems = useSelector(selectCartTotalItems);
+    const isCartOpen = useSelector(selectIsCartOpen);
 
     return (
         <header className="header">
             <div className="container header__bar">
-                <Link to="/" className="header__logo" aria-label="Terra & Loom, ir al inicio">
+                <Link to="/" className="header__logo" aria-label="Amazon Shop, ir al inicio">
                     <span className="header__logo-mark" aria-hidden="true">
                         <AmazonLogo />
                     </span>
@@ -37,12 +37,16 @@ function Header() {
                         value={searchTerm}
                         onChange={(e) => dispatch(setSearchTerm(e.target.value))}
                         autoComplete="off"
+                        aria-label="Buscar productos"
                     />
                 </label>
 
                 <button
                     type="button"
                     className="header__cart"
+                    aria-expanded={isCartOpen}
+                    aria-label={isCartOpen ? "Cerrar carrito" : "Abrir carrito"}
+                    aria-controls="cart-drawer"
                     onClick={() => dispatch(toggleCart())}
                 >
                     <CarritoLogo />

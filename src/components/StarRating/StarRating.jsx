@@ -21,9 +21,9 @@ export default function StarRating({ rating = 0, reviewCount, size = "md" }) {
         ))}
       </span>
       {reviewCount != null && (
-        <a className="star-rating__count" href="#reseñas">
+        <span className="star-rating__count">
           ({reviewCount.toLocaleString("es-MX")})
-        </a>
+        </span>
       )}
     </span>
   );

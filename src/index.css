@@ -21,10 +21,20 @@
   --shadow-card: 0 1px 2px rgba(33, 28, 22, 0.06), 0 8px 20px -12px rgba(33, 28, 22, 0.18);
 }
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
+  /* Red de seguridad: si algún elemento se pasa de ancho, no genera
+     scroll horizontal en toda la página. La causa real hay que
+     resolverla igual (ver Header.css), esto es solo un freno extra. */
+  overflow-x: hidden;
 }
 
 body {
@@ -32,6 +42,7 @@ body {
   color: var(--color-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  width: 100%;
 }
 
 #root {
@@ -68,7 +79,8 @@ img {
   width: 100%;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 0 24px;
+  /* se había perdido: sin esto el container no centra en pantallas anchas */
+  padding: 0 20px;
 }
 
 .visually-hidden {
