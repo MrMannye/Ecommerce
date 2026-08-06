@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectSearchTerm } from "../../reducers/uiSlice";
 import { usePageMetadata } from "../../hooks/usePageMetadata";
 import "./Home.css";
+// import FilterCart from "../../components/Filter/FilterCart";
 
 function Home() {
     const searchTerm = useSelector(selectSearchTerm);
@@ -61,11 +62,15 @@ function Home() {
                 )}
 
                 {!isLoading && !error && products.length > 0 && (
-                    <div className={`catalog__grid ${isFetching ? "is-refetching" : ""}`}>
-                        {products.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
+                    <>
+                        {/* Seccion para aplicar filtros */}
+                        {/* <FilterCart /> */}
+                        <div className={`catalog__grid ${isFetching ? "is-refetching" : ""}`}>
+                            {products.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        </div>
+                    </>
                 )}
             </section>
         </main>

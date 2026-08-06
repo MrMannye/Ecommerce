@@ -27,7 +27,6 @@ const cartSlice = createSlice({
                     existingItem.stock = product.stock;
                     return;
                 }
-
                 state.items.push({
                     id: product.id,
                     name: product.name,
@@ -36,6 +35,7 @@ const cartSlice = createSlice({
                     stock: product.stock,
                     quantity: normalizedQuantity,
                 });
+                window.localStorage.setItem("cart", JSON.stringify(state.items));
             },
             prepare: (product, quantity = 1) => {
                 return { payload: { product, quantity } };
@@ -46,12 +46,15 @@ const cartSlice = createSlice({
             const item = state.items.find((i) => i.id === id);
             if (!item) return;
             item.quantity = clamp(quantity, 1, item.stock);
+            window.localStorage.setItem("cart", JSON.stringify(state.items));
         },
         removeItem(state, action) {
             state.items = state.items.filter((item) => item.id !== action.payload);
+            window.localStorage.setItem("cart", JSON.stringify(state.items));
         },
         clearCart(state) {
             state.items = [];
+            window.localStorage.setItem("cart", JSON.stringify(state.items));
         },
     },
 });

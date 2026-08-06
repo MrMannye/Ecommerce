@@ -1,3 +1,8 @@
+.catalog {
+    display: flex;
+    gap: 10px;
+}
+
 .catalog__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
