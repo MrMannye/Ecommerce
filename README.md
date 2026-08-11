@@ -72,6 +72,55 @@ pnpm run lint
 
 La aplicación consume datos de `https://dummyjson.com` para productos y búsqueda.
 
+Ejemplo de respuesta (lista de productos) desde `GET /products`:
+
+```json
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "iPhone 9",
+      "description": "An apple mobile which is nothing like apple",
+      "price": 549,
+      "discountPercentage": 12.96,
+      "rating": 4.69,
+      "stock": 94,
+      "brand": "Apple",
+      "category": "smartphones",
+      "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+      "images": [
+        "https://i.dummyjson.com/data/products/1/1.jpg",
+        "https://i.dummyjson.com/data/products/1/2.jpg"
+      ]
+    }
+  ],
+  "total": 100,
+  "skip": 0,
+  "limit": 1
+}
+```
+
+Ejemplo de respuesta (producto individual) desde `GET /products/{id}`:
+
+```json
+{
+  "id": 1,
+  "title": "iPhone 9",
+  "description": "An apple mobile which is nothing like apple",
+  "price": 549,
+  "discountPercentage": 12.96,
+  "rating": 4.69,
+  "stock": 94,
+  "brand": "Apple",
+  "category": "smartphones",
+  "thumbnail": "https://i.dummyjson.com/data/products/1/thumbnail.jpg",
+  "images": [
+    "https://i.dummyjson.com/data/products/1/1.jpg",
+    "https://i.dummyjson.com/data/products/1/2.jpg"
+  ]
+}
+```
+
 ## Mejoras recomendadas
 
 - Añadir paginación y filtros avanzados
