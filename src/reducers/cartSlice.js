@@ -4,14 +4,33 @@ const initialState = {
     items: [],
 }
 
+/**
+ * Limita un valor dentro de un rango [min, max].
+ * @param {number} value - Valor a limitar.
+ * @param {number} min - Límite mínimo permitido.
+ * @param {number} max - Límite máximo permitido.
+ * @returns {number} Valor ajustado dentro del rango.
+ */
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
 
+/**
+ * Slice de Redux para el carrito de compras.
+ * - Agrega productos
+ * - Ajusta cantidades
+ * - Elimina artículos
+ * - Vacía el carrito
+ * También sincroniza el estado con localStorage.
+ */
 const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
+        /**
+         * Agrega un producto al carrito o actualiza su cantidad si ya existe.
+         * La cantidad se limita al stock disponible.
+         */
         addItem: {
             reducer: (state, action) => {
                 const { product, quantity = 1 } = action.payload;
@@ -41,6 +60,10 @@ const cartSlice = createSlice({
                 return { payload: { product, quantity } };
             },
         },
+        /**
+         * Establece una cantidad específica para un artículo del carrito.
+         * El valor se normaliza entre 1 y el stock disponible.
+         */
         setQuantity(state, action) {
             const { id, quantity } = action.payload;
             const item = state.items.find((i) => i.id === id);
@@ -48,10 +71,16 @@ const cartSlice = createSlice({
             item.quantity = clamp(quantity, 1, item.stock);
             window.localStorage.setItem("cart", JSON.stringify(state.items));
         },
+        /**
+         * Elimina un artículo del carrito por su ID.
+         */
         removeItem(state, action) {
             state.items = state.items.filter((item) => item.id !== action.payload);
             window.localStorage.setItem("cart", JSON.stringify(state.items));
         },
+        /**
+         * Vacía todos los artículos del carrito.
+         */
         clearCart(state) {
             state.items = [];
             window.localStorage.setItem("cart", JSON.stringify(state.items));
@@ -61,14 +90,34 @@ const cartSlice = createSlice({
 
 export const { addItem, removeItem, clearCart, setQuantity } = cartSlice.actions;
 
+/**
+ * Selector para obtener los artículos del carrito.
+ * @param {Object} state - Estado global de Redux.
+ * @returns {Array<Object>} Artículos del carrito.
+ */
 export const selectCartItems = (state) => state.cart.items;
 
+/**
+ * Selector para obtener el total de unidades en el carrito.
+ * @param {Object} state - Estado global de Redux.
+ * @returns {number} Cantidad total de productos.
+ */
 export const selectCartTotalItems = (state) =>
     state.cart.items.reduce((sum, item) => sum + item.quantity, 0);
 
+/**
+ * Selector para obtener el precio total del carrito.
+ * @param {Object} state - Estado global de Redux.
+ * @returns {number} Suma del precio de todos los artículos.
+ */
 export const selectCartTotalPrice = (state) =>
     state.cart.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
 
+/**
+ * Selector para obtener la cantidad de un producto específico en el carrito.
+ * @param {string|number} id - ID del producto.
+ * @returns {function(Object): number} Función que recibe el estado y devuelve la cantidad.
+ */
 export const selectQuantityInCart = (id) => (state) =>
     state.cart.items.find((item) => item.id === id)?.quantity ?? 0;
 

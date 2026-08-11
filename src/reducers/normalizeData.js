@@ -1,3 +1,9 @@
+/**
+ * Convierte un producto sin procesar en un objeto normalizado para la UI.
+ * Normaliza campos de la API, proporciona valores por defecto y crea un listado de detalles.
+ * @param {Object} raw - Producto recibido desde la API.
+ * @returns {Object} Producto normalizado usado en la aplicación.
+ */
 export function normalizeProduct(raw) {
     const details = [];
 
