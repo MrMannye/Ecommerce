@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import CategoriesNavbar from "./components/CategoriesNavbar/CategoriesNavbar";
 import Header from './components/Header/Header'
 import CartDrawer from './components/CartDrawer/CartDrawer'
 import Home from "./pages/Home/Home";
@@ -9,6 +9,7 @@ function App() {
   return (
     <>
       <Header />
+      <CategoriesNavbar />
       <CartDrawer />
       <main style={{ flex: 1 }}>
         <Routes>

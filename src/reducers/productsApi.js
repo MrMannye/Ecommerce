@@ -38,6 +38,16 @@ export const productsApi = createApi({
             query: (id) => `/products/${id}`,
             transformResponse: (response) => normalizeProduct(response),
         }),
+        /**
+         * Obtiene productos por categoría (p. ej. "smartphones").
+         */
+        getProductsByCategory: builder.query({
+            query: (category) => `/products/category/${encodeURIComponent(category)}?limit=20`,
+            transformResponse: (response) => ({
+                items: response.products.map(normalizeProduct),
+                total: response.total,
+            }),
+        }),
     }),
 });
 
@@ -45,4 +55,5 @@ export const {
     useGetProductsQuery,
     useSearchProductsQuery,
     useGetProductByIdQuery,
+    useGetProductsByCategoryQuery,
 } = productsApi;

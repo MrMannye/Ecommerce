@@ -1,0 +1,40 @@
+.categories-navbar {
+    background: var(--color-paper-deep);
+}
+
+.categories-navbar__list {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    list-style: none;
+    overflow-x: auto;
+}
+
+.categories-navbar__button {
+    background: transparent;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    color: #333;
+    font-weight: 500;
+}
+
+.categories-navbar__item {
+    border-bottom: 1px solid transparent;
+}
+
+.categories-navbar__item:hover {
+    border-bottom: 1px solid white;
+}
+
+.categories-navbar__button.is-active {
+    color: var(--color-rust-soft);
+    border-bottom: 1px solid white;
+}
+
+.categories-navbar__button:hover:not(.is-active) {
+    cursor: pointer;
+    color: var(--color-rust-soft);
+}

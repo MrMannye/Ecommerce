@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     searchTerm: "",
     isCartOpen: false,
+    selectedCategory: "",
 };
 
 /**
@@ -37,10 +38,16 @@ const uiSlice = createSlice({
         toggleCart(state) {
             state.isCartOpen = !state.isCartOpen;
         },
+        /**
+         * Selecciona la categoría activa para filtrar productos.
+         */
+        setSelectedCategory(state, action) {
+            state.selectedCategory = action.payload;
+        },
     },
 });
 
-export const { setSearchTerm, openCart, closeCart, toggleCart } = uiSlice.actions;
+export const { setSearchTerm, openCart, closeCart, toggleCart, setSelectedCategory } = uiSlice.actions;
 
 /**
  * Selector para obtener el término de búsqueda actual.
@@ -55,5 +62,7 @@ export const selectSearchTerm = (state) => state.ui.searchTerm;
  * @returns {boolean} true si el carrito está visible.
  */
 export const selectIsCartOpen = (state) => state.ui.isCartOpen;
+
+export const selectSelectedCategory = (state) => state.ui.selectedCategory;
 
 export default uiSlice.reducer;

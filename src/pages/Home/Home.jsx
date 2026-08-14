@@ -1,13 +1,14 @@
 import ProductCard from "../../components/ProductCard/ProductCard";
-import { useGetProductsQuery, useSearchProductsQuery } from "../../reducers/productsApi";
+import { useGetProductsQuery, useSearchProductsQuery, useGetProductsByCategoryQuery } from "../../reducers/productsApi";
 import { useSelector } from "react-redux";
-import { selectSearchTerm } from "../../reducers/uiSlice";
+import { selectSearchTerm, selectSelectedCategory } from "../../reducers/uiSlice";
 import { usePageMetadata } from "../../hooks/usePageMetadata";
 import "./Home.css";
 // import FilterCart from "../../components/Filter/FilterCart";
 
 function Home() {
     const searchTerm = useSelector(selectSearchTerm);
+    const selectedCategory = useSelector(selectSelectedCategory);
     const normalizedTerm = searchTerm.trim();
 
     const {
@@ -24,12 +25,21 @@ function Home() {
         error: allError,
         isLoading: isAllLoading,
         isFetching: isAllFetching,
-    } = useGetProductsQuery({ limit: 100 }, { skip: normalizedTerm !== "" });
+    } = useGetProductsQuery({ limit: 50 }, { skip: normalizedTerm !== "" });
 
-    const data = normalizedTerm ? searchData : allData;
-    const error = normalizedTerm ? searchError : allError;
-    const isLoading = normalizedTerm ? isSearchLoading : isAllLoading;
-    const isFetching = normalizedTerm ? isSearchFetching : isAllFetching;
+    const {
+        data: categoryData,
+        error: categoryError,
+        isLoading: isCategoryLoading,
+        isFetching: isCategoryFetching,
+    } = useGetProductsByCategoryQuery(selectedCategory, {
+        skip: !selectedCategory,
+    });
+
+    const data = normalizedTerm ? searchData : selectedCategory ? categoryData : allData;
+    const error = normalizedTerm ? searchError : selectedCategory ? categoryError : allError;
+    const isLoading = normalizedTerm ? isSearchLoading : selectedCategory ? isCategoryLoading : isAllLoading;
+    const isFetching = normalizedTerm ? isSearchFetching : selectedCategory ? isCategoryFetching : isAllFetching;
 
     usePageMetadata(
         normalizedTerm ? `Resultados para “${normalizedTerm}” · Amazon Shop` : "Amazon Shop · Catálogo de productos",
