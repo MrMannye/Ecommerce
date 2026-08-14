@@ -17,7 +17,7 @@
     border: none;
     padding: 0.5rem 0.75rem;
     cursor: pointer;
-    color: #333;
+    color: var(--color-ink);
     font-weight: 500;
 }
 
@@ -26,15 +26,15 @@
 }
 
 .categories-navbar__item:hover {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid var(--color-line);
 }
 
 .categories-navbar__button.is-active {
-    color: var(--color-rust-soft);
-    border-bottom: 1px solid white;
+    color: var(--color-rust);
+    border-bottom: 1px solid var(--color-line);
 }
 
 .categories-navbar__button:hover:not(.is-active) {
     cursor: pointer;
-    color: var(--color-rust-soft);
+    color: var(--color-rust);
 }
